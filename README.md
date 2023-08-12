@@ -24,7 +24,7 @@ Notes:
 
 References:
 * https://www.heise.de/blog/Winzling-gang-gross-3329007.html
-* 
+* https://roboticsbackend.com/arduino-fast-digitalwrite/
 
 
 CC0 1.0 Universal
