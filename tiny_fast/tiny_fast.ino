@@ -1,68 +1,74 @@
 /*
-  tiny-clock - first program for ATtiny  
+  tiny-fast - study fast switching with ATtiny  
 
-  2023-08-11, initial version
+  2023-08-21, initial version
 
-  info:
+  infos:
   https://www.heise.de/blog/Winzling-gang-gross-3329007.html
   https://wolles-elektronikkiste.de/attiny-mit-arduino-code-programmieren
   https://roboticsbackend.com/arduino-fast-digitalwrite/
 
+  note:
   Digispark uses 3/4, not used here
+
+  using programmer:
+  * board - select ATtiny25/45/85 (no bootloader)
+  * select clock 16.5 MHz (pll, tweaked)
+  * burn bootloader (--> only to set clock)
+  * compile sketch
+  * upload: use "sketch" --> "upload using programmer" 
+
+  result:
+  * 8 MHz (intenal):          432 kHz / 2.31 us
+  * 16,5 MHz (pll, tweaked):  842 kHz / 1.19 us 
 
 */
 
-// const int Sel = 1;   // select low/high frequency
-// const int Out = 0;   // output, clock signal
-const int Sel = 1;   // select low/high frequency
-const int Out = 0;   // output, clock signal
-const int Adj = A1;  // adjust frequency
+
+const int Sel = 1;                  // select low/high frequency
+const int Out = 0;                  // output, clock signal
+
+const byte portb0 = B00000001;      // Port B, Pin0 equals Out
 
 
-int step;
-int half = 1;  // period/2
-               // largest value: 16383 us
-
+int half = 1;                       // period/2
+                                    // us --> largest value: 16383
 
 
 void setup() {
-
-  pinMode(Sel, INPUT_PULLUP);
+  pinMode(Sel, INPUT_PULLUP);       // defined state with open input
   pinMode(Out, OUTPUT);
-
-  step = analogRead(Adj) / 32;  // 0...1023 -> 0..31
-
-  half = 1 + (step * 128);
+  noInterrupts();                   // disable interrupt, just loop
 }
 
 
-void loop_ms() {
+
+void loop_us() {                    // fast clock, highest frequency
   while (1) {
-
-    step = analogRead(Adj) / 32;  // 0...1023 -> 0..31
-    half = 1 + (step * 64);
-
-    digitalWrite(Out, HIGH);
-    delay(half);
-    digitalWrite(Out, LOW);
-    delay(half);
+    PORTB = PORTB | B00000001;      // fast port manipulation
+    delayMicroseconds(half);
+    PORTB = PORTB & B11111110;
+    delayMicroseconds(half);
   }
 }
 
 
-void loop_us() {
+void loop_ms() {                    // slow clock, visible blinking
   while (1) {
+    if (digitalRead(Sel))           // still change to fast clock
+      loop_us();
     digitalWrite(Out, HIGH);
-    delayMicroseconds(half);
+    delay(half);
     digitalWrite(Out, LOW);
-    delayMicroseconds(half);
+    delay(half);
   }
 }
 
 
 void loop() {
-  if (digitalRead(Sel))
+  if (digitalRead(Sel))           
     loop_us();
   else
+    half = 50;                      // 100 ms / 10 Hz, still visible
     loop_ms();
 }
