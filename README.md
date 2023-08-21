@@ -2,10 +2,10 @@
 
 
 Features:
-* based on ATtiny
-* 8 pin, footprint similar to cystal oszilators
+* based on ATtiny25/45/85
+* 8 pin, footprint similar to crystal oscillators
 * select input: change between low and high frequency range
-* adjust uses analog input, steps between HIGH and LOW possible
+* adjust can use analog input, steps between HIGH and LOW possible
 * package includes simple programming schematic 
 
 
@@ -33,7 +33,12 @@ Pinout:
 
 ### Notes: ###
 * IC Pin 2,3 (Arduino 3,4) not used (Digispark USB interface)
-*  
+* program with fastest internal clock:
+  * board - select ATtiny25/45/85 (no bootloader)
+  * select clock 16.5 MHz (pll, tweaked)
+  * burn bootloader (--> only to set clock)
+  * compile sketch
+  * upload: use "sketch" --> "upload using programmer" 
   
 
 ### References: ###
