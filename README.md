@@ -27,7 +27,7 @@ Pinout:
 
 ### source codes, Arduino IDE: ###
 * tiny-blink - hello world
-* tiny-fast - fast switching of digital output
+* tiny-fast - fast switching of digital output, up to 842 kHz, see comments in source code
 * tiny-clock - clock generator
 
 
