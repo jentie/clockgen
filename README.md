@@ -1,5 +1,6 @@
 # clockgen - adjustable / programable clock generator
 
+<img src="./ATtiny-clockgen.jpg" alt="classic crytal oscillator and programmable clock genererator in ATtiny85" width="700">
 
 Features:
 * based on ATtiny25/45/85
@@ -7,9 +8,6 @@ Features:
 * select input: change between low and high frequency range
 * adjust can use analog input, steps between HIGH and LOW possible
 * package includes simple programming schematic 
-
-
-(todo: picture programming adapter)
 
 
 Pinout:
