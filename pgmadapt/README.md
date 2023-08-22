@@ -1,9 +1,7 @@
 # pgmadapt - simple program adapter for ATtiny
 
 
-
-(todo: picture programming adapter)
-(todo: schematic of adapter)
+ <img src="./ATtiny-pgm-exp.jpg" alt="programming and experimenting board for ATtiny25/45/85" width="700">
 
 
 ### using mySmartUSB: ###
@@ -25,9 +23,13 @@
 * "compile & upload" (shows error: "A programmer is required to upload")
 * use "Sketch -> Upload using Programmer"
 * (use "Power on" switch from "SupportBox" for first run inside programming environment) 
+* (sel-pin: remove external connection (short to ground) before programming)
 
 
+### additional notes ###
 * simple way to set correct clock fuses:
   * "burn bootloader"
   * program again
 
+
+(todo: schematic of adapter)
