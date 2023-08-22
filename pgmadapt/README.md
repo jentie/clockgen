@@ -27,6 +27,7 @@
 
 
 ### additional notes ###
+* "1 second blinking" can be extremly slow (period of serveral seconds)
 * simple way to set correct clock fuses:
   * "burn bootloader"
   * program again
