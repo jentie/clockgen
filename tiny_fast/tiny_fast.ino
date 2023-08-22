@@ -25,27 +25,28 @@
 */
 
 
-const int Sel = 1;                  // select low/high frequency
-const int Out = 0;                  // output, clock signal
+const int Sel = 1;  // select low/high frequency
+const int Out = 0;  // output, clock signal
 
-const byte portb0 = B00000001;      // Port B, Pin0 equals Out
+const byte portb0 = B00000001;  // Port B, Pin0 equals Out
 
 
-int half = 1;                       // period/2
-                                    // us --> largest value: 16383
+int half = 1;  // period/2
+               // us --> largest value: 16383
 
 
 void setup() {
-  pinMode(Sel, INPUT_PULLUP);       // defined state with open input
+  pinMode(Sel, INPUT_PULLUP);  // defined state with open input
   pinMode(Out, OUTPUT);
-  noInterrupts();                   // disable interrupt, just loop
 }
 
 
 
-void loop_us() {                    // fast clock, highest frequency
+void loop_us() {   // fast clock, highest frequency
+  half = 1;        // shortest delay
+  noInterrupts();  // disable interrupts, just loop
   while (1) {
-    PORTB = PORTB | B00000001;      // fast port manipulation
+    PORTB = PORTB | B00000001;  // fast port manipulation
     delayMicroseconds(half);
     PORTB = PORTB & B11111110;
     delayMicroseconds(half);
@@ -53,9 +54,10 @@ void loop_us() {                    // fast clock, highest frequency
 }
 
 
-void loop_ms() {                    // slow clock, visible blinking
+void loop_ms() {  // slow clock, visible blinking
+  half = 500;     // real frequency depends on clock
   while (1) {
-    if (digitalRead(Sel))           // still change to fast clock
+    if (digitalRead(Sel))  // still change to fast clock
       loop_us();
     digitalWrite(Out, HIGH);
     delay(half);
@@ -66,9 +68,8 @@ void loop_ms() {                    // slow clock, visible blinking
 
 
 void loop() {
-  if (digitalRead(Sel))           
+  if (digitalRead(Sel))
     loop_us();
   else
-    half = 50;                      // 100 ms / 10 Hz, still visible
     loop_ms();
 }
